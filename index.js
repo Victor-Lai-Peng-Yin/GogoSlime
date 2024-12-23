@@ -85,30 +85,36 @@ function openInvoiceInTelegram(invoiceLink) {
       }
   });
 }
-
 function SendAuthDataToUnity(initData) {
   if (unityInstanceRef) {
+    // 解析 initData 中的參數
     var urlParams = new URLSearchParams(initData);
-    var userData = JSON.parse(urlParams.get('user'));
 
-    var userDataJson = JSON.stringify(userData);
-    
-    // Fetch the user profile picture URL
-    var profilePhotoUrl = userData.photo_url; // Assuming the photo URL is available in userData
-    
-    
-    console.log("Parsed user data: ", userData);
+    // 獲取 start_param 的值
+    var startParamValue = urlParams.get('start_param');
+    console.log("start_param value: ", startParamValue);
+
+    // 解析 user 數據（如果存在）
+    var userDataJson = urlParams.get('user');
     console.log("User data JSON string: ", userDataJson);
-    console.log("photo is " + profilePhotoUrl);
-    
+
+    // 傳遞數據到 Unity
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
-    unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
-    
-    if (profilePhotoUrl) {
-      unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', profilePhotoUrl);
+    if (userDataJson) {
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
+    }
+    if (startParamValue) {
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', startParamValue);
+    }
+
+    // 獲取用戶圖片 URL 並傳遞到 Unity（如果存在）
+    if (userDataJson) {
+      var userData = JSON.parse(decodeURIComponent(userDataJson));
+      if (userData.photo_url) {
+        unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', userData.photo_url);
+      }
     }
   } else {
     console.error("Unity instance not ready");
   }
 }
-
