@@ -90,13 +90,25 @@ function SendAuthDataToUnity(initData) {
     // 解析 initData 中的參數
     var urlParams = new URLSearchParams(initData);
 
-    // 獲取 start_param 的值
+    // 嘗試獲取 start_param 的值
     var startParamValue = urlParams.get('start_param');
     console.log("start_param value: ", startParamValue);
 
-    // 解析 user 數據（如果存在）
+    // 解析 user 數據
     var userDataJson = urlParams.get('user');
-    console.log("User data JSON string: ", userDataJson);
+    var playerId = null;
+    if (userDataJson) {
+      // 解碼並解析 user 數據
+      var userData = JSON.parse(decodeURIComponent(userDataJson));
+      playerId = userData.id; // 獲取 player id
+      console.log("Player ID: ", playerId);
+    }
+
+    // 如果沒有 start_param，使用 playerId 作為替代值
+    if (!startParamValue && playerId) {
+      startParamValue = playerId;
+      console.log("Using player ID as start_param: ", startParamValue);
+    }
 
     // 傳遞數據到 Unity
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
@@ -107,12 +119,9 @@ function SendAuthDataToUnity(initData) {
       unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', startParamValue);
     }
 
-    // 獲取用戶圖片 URL 並傳遞到 Unity（如果存在）
-    if (userDataJson) {
-      var userData = JSON.parse(decodeURIComponent(userDataJson));
-      if (userData.photo_url) {
-        unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', userData.photo_url);
-      }
+    // 傳遞用戶圖片 URL（如果存在）
+    if (userData && userData.photo_url) {
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', userData.photo_url);
     }
   } else {
     console.error("Unity instance not ready");
