@@ -127,3 +127,4 @@ function SendAuthDataToUnity(initData) {
     console.error("Unity instance not ready");
   }
 }
+
