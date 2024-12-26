@@ -97,23 +97,28 @@ window.addEventListener("load", function () {
       // 解析 user 數據（如果存在）
       var userDataJson = urlParams.get('user');
       console.log("User data JSON string: ", userDataJson);
-  
-      // 傳遞數據到 Unity
-      unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
-      if (userDataJson) {
-        unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
-      }
-      if (startParamValue) {
-        unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', startParamValue);
-      }
-  
+
+        
       // 獲取用戶圖片 URL 並傳遞到 Unity（如果存在）
       if (userDataJson) {
         var userData = JSON.parse(decodeURIComponent(userDataJson));
         var playerid = userData.id;
         console.log("Player id: ", playerid);
       }
-    } else {
+  
+      // 傳遞數據到 Unity
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
+      if (userDataJson) {
+        unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
+      }
+      if (startParamValue!=null) {
+        unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', startParamValue);
+      }
+      else{
+        unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', playerid);
+      }
+    } 
+    else {
       console.error("Unity instance not ready");
     }
   }
