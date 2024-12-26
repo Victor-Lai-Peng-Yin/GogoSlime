@@ -93,10 +93,7 @@ window.addEventListener("load", function () {
       // 獲取 start_param 的值
       var startParamValue = urlParams.get('start_param');
       console.log("start_param value: ", startParamValue);
-      //獲取玩家id
-      var user = JSON.parse(decodeURIComponent(userEncoded));
-      var playerid = user.id;
-      console.log("userid: ", playerid);
+  
       // 解析 user 數據（如果存在）
       var userDataJson = urlParams.get('user');
       console.log("User data JSON string: ", userDataJson);
@@ -113,9 +110,8 @@ window.addEventListener("load", function () {
       // 獲取用戶圖片 URL 並傳遞到 Unity（如果存在）
       if (userDataJson) {
         var userData = JSON.parse(decodeURIComponent(userDataJson));
-        if (userData.photo_url) {
-          unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', userData.photo_url);
-        }
+        var playerid = userData.id;
+        console.log("Player id: ", playerid);
       }
     } else {
       console.error("Unity instance not ready");
