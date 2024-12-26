@@ -114,7 +114,7 @@ window.addEventListener("load", function () {
       if (startParamValue!=null) {
         unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', startParamValue);
       }
-      else{
+      if(playerid!=null){
         unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', playerid);
       }
     } 
