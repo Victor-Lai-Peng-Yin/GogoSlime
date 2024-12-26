@@ -121,7 +121,3 @@ window.addEventListener("load", function () {
       console.error("Unity instance not ready");
     }
   }
-    } else {
-      console.error("Unity instance not ready");
-    }
-  }
