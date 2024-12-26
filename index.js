@@ -94,9 +94,9 @@ window.addEventListener("load", function () {
       var startParamValue = urlParams.get('start_param');
       console.log("start_param value: ", startParamValue);
       //獲取玩家id
-      var playerid = urlParams.get('id');
-      console.log("Playerid:",playerid);
-  
+      var user = JSON.parse(decodeURIComponent(userEncoded));
+      var playerid = user.id;
+      console.log("userid: ", playerid);
       // 解析 user 數據（如果存在）
       var userDataJson = urlParams.get('user');
       console.log("User data JSON string: ", userDataJson);
@@ -117,6 +117,10 @@ window.addEventListener("load", function () {
           unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', userData.photo_url);
         }
       }
+    } else {
+      console.error("Unity instance not ready");
+    }
+  }
     } else {
       console.error("Unity instance not ready");
     }
