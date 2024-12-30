@@ -112,10 +112,10 @@ function SendAuthDataToUnity(initData) {
       unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
     }
     if (startParamValue!=null) {
-      unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue2', startParamValue);
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', startParamValue);
     }
     if(playerid!=null){
-      unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', playerid);
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue2', playerid);
     }
   } 
   else {
