@@ -102,7 +102,7 @@ function SendAuthDataToUnity(initData) {
     // 獲取用戶圖片 URL 並傳遞到 Unity（如果存在）
     if (userDataJson) {
       var userData = JSON.parse(decodeURIComponent(userDataJson));
-      var playerid = userData.id;
+      var playerid = String(userData.id);
       console.log("Player id: ", playerid);
     }
 
