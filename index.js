@@ -85,6 +85,9 @@ function openInvoiceInTelegram(invoiceLink) {
       }
   });
 }
+function ToUnity(str) {
+  SendMessage("BlockChainManager", "ToUnity", str);
+}
 function SendAuthDataToUnity(initData) {
   if (unityInstanceRef) {
     // 解析 initData 中的參數
